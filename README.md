@@ -140,7 +140,7 @@ DELETE ----- `api/v1/admin/user` --- delete user ------------------ Admin
 ###  1. Register :
 
 POST `http://localhost:5000/api/auth/signup`
-
+```
 {
 
 "name" : "hala",
@@ -152,7 +152,59 @@ POST `http://localhost:5000/api/auth/signup`
 "role" : "user" 
 
 }
+```
+the response :
+```
+201 Created
+{
+    "message": "User registered successfully",
+    "data": {
+        "name": "hala",
+        "email": "hala12@gmail.com",
+        "role": "user",
+        "_id": "6a297f56e841c7957489a3c4",
+        "createdAt": "2026-06-10T15:14:30.589Z",
+        "updatedAt": "2026-06-10T15:14:30.589Z",
+        "__v": 0
+    }
+}
+```
 
+Another request : 
+```
+{
+    "name" : "yara",
+    "email" : "yara1@gmail.com",
+    "password" : "12344mrL",
+    "role" : "admi"
+}
+```
+the response :
+```
+400 Bad Request
+
+{
+    "success": false,
+    "message": "Validation failed",
+    "errors": [
+        {
+            "field": "email",
+            "message": "Email already exists",
+            "value": "yara1@gmail.com"
+        },
+        {
+            "field": "password",
+            "message": "Password is weak",
+            "value": "12344mrL"
+        },
+        {
+            "field": "role",
+            "message": "Role must be either 'user' or 'admin'",
+            "value": "admi"
+        }
+    ]
+}
+```
 ###  2. Login
 
 POST `http://localhost:5000/api/auth/login`
@@ -168,7 +220,22 @@ POST `http://localhost:5000/api/auth/login`
 ###  3.Logout
 
 POST `http://localhost:4000/api/v1/auth/logout`
-  
+
+with Auth Type Bearer Token
+token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTI5NWY1M2UyMTIzNzU5N2ZjZjNlYzUiLCJlbWFpbCI6ImhhbGExMEBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc4MTEwNDEzOCwiZXhwIjoxNzgxMTA3NzM4fQ.tpSWf99DTHZ4UrGuSRK5KgzQgDD6Y-4x06GD-qBLt5Q"
+
+response :
+```
+{
+    "message": "Logout successful"
+}
+```
+if the token is missing or not correct the response :
+```
+{
+    "message": "Not Authorized"
+}
+```
 
 ###  4.Profile
 
@@ -190,11 +257,32 @@ GET `http://localhost:4000/api/v1/me/account-summary`
 
 ###  3.Overview :
 
+login as a admin :
+
 GET `http://localhost:4000/api/v1/admin/overview`
+
+then the response :
+{
+    "message": "Overview for admin yara",
+    "data": {
+        "users": 5,
+        "admins": 3
+    }
+}
 
 ###  4.User's Info
 
+Login as a User :
+
 GET `http://localhost:4000/api/v1/admin/users-info`
+
+then the response :
+403 Forbidden
+{
+    "message": "You don't have permission to access this resource."
+}
+
+
 
 ###  5.Delete User :
 
@@ -217,6 +305,8 @@ Middleware Purpose
 `xss()`  help sanitize user input to prevent malicious script injection attacks
 
 `auth` (custom) Verifies JWT token from cookie, attaches user to `req.user`
+
+`role` (custom) verifies if the user has the role to request the API (user or admin)
 
 ## 📊 Token Flow 
 
@@ -272,4 +362,4 @@ Input validation ---------- Manual validation in routes
 Email uniqueness ------- MongoDB unique index
 
 ### Author 
-Alaa 
+Eng.Alaa 
