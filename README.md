@@ -91,43 +91,34 @@ COOKIE_SECURE=false # Set to true in production (HTTPS)
 
   
 
-Method --- Endpoint ----------------------- Description --------------- Access
+Method --- Endpoint ----------------------------- Description -------------------- Access
 
+
+POST ----- `/api/v1/auth/signup` ---------------- Register a new user ------------ All users
   
 
-POST ----- `/api/v1/auth/signup` ----- Register a new user ----------- All users
+POST -----`/api/v1/auth/login` ------------------ Login user --------------------- All users
 
+
+POST -----`/api/v1/auth/logout` ----------------- Logout user -------------------- All users
   
 
-POST -----`/api/v1/auth/login` ------ Login user --------------------- All users
-
+GET ------ `/api/v1/auth/profile` --------------- Get profile -------------------- All users
   
 
-POST -----`/api/v1/auth/logout` --- Logout user --------------------- All users
+GET ------`api/v1/me/welcome` ------------------- Welcome user ------------------- All users
+
+
+GET ----- `api/v1/me/account-summary`----------- Account summary ---------===----- All users
+
+
+GET ----- `api/v1/admin/overview` -------------- count users and admins --------- Admin only
 
   
+GET ----- `api/v1/admin/users-info` ------------ list users without passwords --- Admin only
 
-GET ------ `/api/v1/auth/profile` -- Get profile -------------------- All users
 
-  
-
-GET ------`api/v1/me/welcome` ------- Welcome user ----------------- All users
-
-  
-
-GET ----- `api/v1/me/account-summary`-Account summary -------------- All users
-
-  
-
-GET ----- `api/v1/admin/overview` - count users and admins --------- Admin
-
-  
-
-GET ----- `api/v1/admin/users-info` - list users without passwords -- Admin
-
-  
-
-DELETE ----- `api/v1/admin/user` --- delete user ------------------ Admin
+DELETE ----- `api/v1/admin/user` -------------- delete user --------------------- Admin only
 
   
   
@@ -318,8 +309,6 @@ Middleware Purpose
 
 `rateLimit()` Limits repeated requests to prevent abuse
 
-`cors()` Enables CORS with configured options
-
 `xss()`  help sanitize user input to prevent malicious script injection attacks
 
 `auth` (custom) Verifies JWT token from cookie, attaches user to `req.user`
@@ -349,17 +338,17 @@ Token -------------------Lifetime ---------------- What it does
 
 ### User Schema Validation Rules
 
-Field -------- Rules --------------- Error Message
+Field -------- Rules --------------------------------------------------------- Error Message
 
 **name** ------ Required, min 3 chars, max 50 chars, only letters/spaces  ----"Name must be a string"
 
-**email** -------Required, valid email format (unique in register) -----"Invalid email format"
+**email** -------Required, valid email format (unique in register) -----------"Invalid email format"
 
-**password** ----Required, min 8 chars, at least one number, at least lower case letter and one upper case , one number and one symbol. ------"Password is weak"
+**password** ----Required, min 8 chars, at least one number, at least lower case letter and one upper case , one number and one symbol. -------"Password is weak"
 
-**role** ------ Required , role must be user or admin ----------- Role must be either 'user' or 'admin'
+**role** ------ Required , role must be user or admin ------------- Role must be either 'user' or 'admin'
 
-**ID** ------- Required, valid Mongodb ID in delete user by Admin ----- Invalid user ID format
+**ID** ------- Required, valid Mongodb ID in delete user by Admin ---------- Invalid user ID format
 
 ## 🛡️ Security Features Implemented
 
