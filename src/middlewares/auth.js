@@ -1,14 +1,14 @@
-const cookieService = require("../utils/cookiesService");
+const cookiesService = require("../utils/cookiesService");
 const jwtService = require("../utils/jwtService");
 
 const auth = ( req, res, next ) => {
     try {
-    const token = cookieService.getData(req, "accessToken");
+    const token = cookiesService.getAccessToken(req);
     if (!token) {
         return res.status(403).json({
              message : "Not Authorized" })
     }
-    const decoded = jwtService.verify(token);
+    const decoded = jwtService.verifyAccessToken(token);
 
     req._user = { ...decoded };
  

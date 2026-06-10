@@ -12,6 +12,7 @@ const { registerValidation, loginValidation } = require("../validations/auth.val
 router.post("/register",[registerValidation], asyncHandler(authController.register));
 router.post("/login", [loginLimiter, ...loginValidation], asyncHandler(authController.login));
 router.post("/logout",[auth], asyncHandler(authController.logout));
-router.post("/profile", [optionalAuth], asyncHandler(authController.getProfile));
+router.post("/profile", [auth], asyncHandler(authController.getProfile));
+router.put("/refresh-token", asyncHandler(authController.refreshToken));
 
 module.exports = router;

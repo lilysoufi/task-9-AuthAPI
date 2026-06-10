@@ -30,22 +30,30 @@ class authController {
             return res.status(400).json({ message : "Invalid email or password" })
         }
 
-        const token = jwtService.sign({ 
-            _id : user._id , 
-            email : user.email ,
-            role : user.role },
-            process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRES_IN  });
+        const token = jwtService.generateAccessToken({ 
+            _id: user._id, 
+            email: user.email, 
+            role: user.role
+        });
+
+         const refreshToken = jwtService.generateRefreshToken({ 
+            _id: user._id, 
+            email: user.email, 
+            role: user.role
+        });
+
 
         user = user.toObject();
         delete user.password;
-
-        cookiesService.setData(res, "accessToken", token);
+        
+        cookiesService.setAccessToken(res, token)
+        cookiesService.setRefreshToken(res, refreshToken)
 
         return res.status(200).json({ message : "Login successful", data : user , token }); 
     }
 
     static logout = async ( req , res) => {
-        cookiesService.clearData(res, "accessToken");
+        cookiesService.clearTokens(res);
         return res.status(200).json({ message : "Logout successful" });
     }
 
@@ -55,6 +63,31 @@ class authController {
         }
         const user = await User.findById(req._user._id).select("-password");
         return res.status(200).json({ message: "User profile fetched successfully", data: user });
+    }
+
+    static refreshToken = async ( req, res) => {
+        const refreshToken = cookiesService.getRefreshToken(req);
+        if(!refreshToken) {
+            return res.status(400).json({ message : "Refresh token not found" })
+        }
+
+        const decoded = jwtService.verifyRefreshToken(refreshToken);
+        const data = {
+            _id: decoded._id,
+            email: decoded.email,
+            role: decoded.role
+        }
+        
+        const token = jwtService.generateAccessToken(data);
+        const newRefreshToken = jwtService.generateRefreshToken(data);
+
+        cookiesService.setAccessToken(res, token);
+        cookiesService.setRefreshToken(res, newRefreshToken);
+
+        return res.status(200).json({
+            message: "Token refreshed successfully",
+            data: { token, newRefreshToken }
+        });
     }
 
 }

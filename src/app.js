@@ -8,6 +8,12 @@ const notFound = require("./middlewares/notFound");
 const cookies = require("cookie-parser");
 const xssSanitize = require("./middlewares/xss");
 const { limiter } = require("./middlewares/limiter");
+const cors = require("cors");
+
+app.use(cors({
+    origin: true,
+    credentials: true //Allows cookies to be sent and received
+}));
 
 app.use(limiter);
 app.use(express.json());
@@ -16,6 +22,7 @@ app.use(require("morgan")("dev"));
 app.use(cookies());
 app.use(xssSanitize);
 app.use(express.static("public"));
+
 
 app.get("/api/health", (req, res) => res.status(200).json("API is Healthy"));
 app.use("/api/v1/auth", require("./routes/auth.routes"));

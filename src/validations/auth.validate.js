@@ -4,7 +4,8 @@ const User = require("../models/User");
 
 const registerValidation = [
     body("name")
-    .isString().withMessage("Name must be a string"),
+    .isString().withMessage("Name must be a string")
+    .isLength({ min: 2, max: 100 }).withMessage("Name must be between 2 and 50 characters long"),
 
 
     body("email")
