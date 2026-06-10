@@ -1,6 +1,5 @@
 
-#  🔐 Auth Practice API - Minimal Authentication System
-
+#  🔐 Auth Practice API 
   
 
 A minimal Express + MongoDB API to practice authentication concepts: user signup, login, route protection, and field validation.
@@ -28,7 +27,7 @@ express-rate-limit => Rate limiting
 
 express-validator => Input validation
 
-cors =>Cross-origin resource sharing
+cors => Cross-origin resource sharing
 
 dotenv => Environment variables
 
@@ -70,7 +69,6 @@ npm run start
 
 Create a `.env` file in the root directory:
 
-env
 
 ###  Server
 
@@ -94,35 +92,35 @@ COOKIE_SECURE=false # Set to true in production (HTTPS)
 
   
 
-Method --- Endpoint ----------------------- Description ------------- Access
+Method --- Endpoint ----------------------- Description --------------- Access
 
   
 
-POST ----- `/api/v1/auth/signup` ----- Register a new user ------ All users
+POST ----- `/api/v1/auth/signup` ----- Register a new user ----------- All users
 
   
 
-POST -----`/api/v1/auth/login` ------ Login user ---------------- All users
+POST -----`/api/v1/auth/login` ------ Login user --------------------- All users
 
   
 
-POST -----`/api/v1/auth/logout` --- Logout user --------------- All users
+POST -----`/api/v1/auth/logout` --- Logout user --------------------- All users
 
   
 
-GET ------ `/api/v1/auth/profile` -- Get profile --------------- All users
+GET ------ `/api/v1/auth/profile` -- Get profile -------------------- All users
 
   
 
-GET ------`api/v1/me/welcome` ------- Welcome user ----------- All users
+GET ------`api/v1/me/welcome` ------- Welcome user ----------------- All users
 
   
 
-GET ----- `api/v1/me/account-summary`-Account summary --- All users
+GET ----- `api/v1/me/account-summary`-Account summary -------------- All users
 
   
 
-GET ----- `api/v1/admin/overview` - count users and admins -- Admin
+GET ----- `api/v1/admin/overview` - count users and admins --------- Admin
 
   
 
@@ -130,7 +128,7 @@ GET ----- `api/v1/admin/users-info` - list users without passwords -- Admin
 
   
 
-DELETE ----- `api/v1/admin/user` --- delete user ---------------- Admin
+DELETE ----- `api/v1/admin/user` --- delete user ------------------ Admin
 
   
   
@@ -200,7 +198,7 @@ GET `http://localhost:4000/api/v1/admin/users-info`
 
 ###  5.Delete User :
 
-DELETE `http://localhost:4000/api/v1/admin/users/6a2402d484b285fefea3a424
+DELETE `http://localhost:4000/api/v1/admin/users/6a2402d484b285fefea3a424`
 
   
 
@@ -216,21 +214,21 @@ Middleware Purpose
 
 `cors()` Enables CORS with configured options
 
-`xss()`  
+`xss()`  help sanitize user input to prevent malicious script injection attacks
 
 `auth` (custom) Verifies JWT token from cookie, attaches user to `req.user`
 
 ## 📊 Token Flow 
 
-Token -------------------Lifetime ---------------------- What it does
+Token -------------------Lifetime ---------------- What it does
 
-**Access Token** ---- 15 minutes ------- Proves you're logged in (sent with every request)
+**Access Token** ------- 15 minutes -------------- Proves you're logged in (sent with every request)
 
-**Refresh Token** ----7 days ---- Gets you a NEW access token when it expires
+**Refresh Token** -------7 days ------------------ Gets you a NEW access token when it expires
 
  Access tokens are short for security. Refresh tokens are long for convenience.
  
- ## 🔄 How It Works
+ ##  🔄 How It Works
 1. Login → Server gives you both tokens (stored in HttpOnly cookies)
 2. Every request → Access token (in auth middleware) proves who you are
 3. After 15 min → Access token expires → Server says "token expired or not found"
@@ -251,6 +249,10 @@ Field -------- Rules --------------- Error Message
 
 **password** ----Required, min 8 chars, at least one number, at least lower case letter and one upper case , one number and one symbol. ------"Password is weak"
 
+**role** ------ Required , role must be user or admin ----------- Role must be either 'user' or 'admin'
+
+**ID** ------- Required, valid Mongodb ID in delete user by Admin ----- Invalid user ID format
+
 ## 🛡️ Security Features Implemented
 
 Feature --------------------- Implementation
@@ -265,8 +267,9 @@ Rate limiting  -------------- 100 requests per 15 minutes , 3 login requests per
 
 CORS ---------------------- Restricted to specific origins
 
-Input validation ---------- Manual validation in controllers
+Input validation ---------- Manual validation in routes
 
 Email uniqueness ------- MongoDB unique index
 
 ### Author 
+Alaa 
