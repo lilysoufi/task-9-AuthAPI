@@ -42,7 +42,6 @@ dotenv => Environment variables
 
 ###  Installation Steps
 
-bash
 
 ###  1. Clone the repository
 
@@ -381,4 +380,4 @@ Input validation ---------- Manual validation in routes
 Email uniqueness ------- MongoDB unique index
 
 ### Author 
-Eng.Alaa 
+Eng.Alaa ❤️ 
