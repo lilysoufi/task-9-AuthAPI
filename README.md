@@ -109,7 +109,7 @@ GET ------ `/api/v1/auth/profile` --------------- Get profile ------------------
 GET ------`api/v1/me/welcome` ------------------- Welcome user ------------------- All users
 
 
-GET ----- `api/v1/me/account-summary`----------- Account summary ---------===----- All users
+GET ----- `api/v1/me/account-summary`----------- Account summary ----------------- All users
 
 
 GET ----- `api/v1/admin/overview` -------------- count users and admins --------- Admin only
