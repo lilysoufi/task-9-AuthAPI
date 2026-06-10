@@ -208,7 +208,7 @@ the response :
 ###  2. Login
 
 POST `http://localhost:5000/api/auth/login`
-
+```
 {
 
 "email" : "halaadmin@gmail.com",
@@ -216,7 +216,23 @@ POST `http://localhost:5000/api/auth/login`
 "password" : "12344mrL!"
 
 }
-
+```
+response :
+```
+{
+    "message": "Login successful",
+    "data": {
+        "_id": "6a295f53e21237597fcf3ec5",
+        "name": "hala",
+        "email": "hala10@gmail.com",
+        "role": "user",
+        "createdAt": "2026-06-10T12:57:55.054Z",
+        "updatedAt": "2026-06-10T12:57:55.054Z",
+        "__v": 0
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTI5NWY1M2UyMTIzNzU5N2ZjZjNlYzUiLCJlbWFpbCI6ImhhbGExMEBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc4MTEwNDEzOCwiZXhwIjoxNzgxMTA3NzM4fQ.tpSWf99DTHZ4UrGuSRK5KgzQgDD6Y-4x06GD-qBLt5Q"
+}
+```
 ###  3.Logout
 
 POST `http://localhost:4000/api/v1/auth/logout`
@@ -261,7 +277,8 @@ login as a admin :
 
 GET `http://localhost:4000/api/v1/admin/overview`
 
-then the response :
+the response :
+```
 {
     "message": "Overview for admin yara",
     "data": {
@@ -269,6 +286,7 @@ then the response :
         "admins": 3
     }
 }
+```
 
 ###  4.User's Info
 
@@ -277,11 +295,12 @@ Login as a User :
 GET `http://localhost:4000/api/v1/admin/users-info`
 
 then the response :
+```
 403 Forbidden
 {
     "message": "You don't have permission to access this resource."
 }
-
+```
 
 
 ###  5.Delete User :
